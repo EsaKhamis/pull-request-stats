@@ -20235,25 +20235,31 @@ module.exports = async ({
   const { webhook, channel } = slack || {};
 
   if (!webhook || !channel) {
-    core.debug('Slack integration is disabled. No webhook or channel configured.');
+    core.debug(
+      "Slack integration is disabled. No webhook or channel configured."
+    );
     return;
   }
 
   if (!isSponsor) {
-    core.error('Slack integration is a premium feature, available to sponsors.');
+    core.error(
+      "Slack integration is a premium feature, available to sponsors."
+    );
     return;
   }
 
   const send = (message) => {
-    core.debug(`slack message webhook: ${webhook}`)
+    core.debug(`slack message webhook: ${webhook}`);
     const params = {
       webhook,
       channel,
       message,
-      iconUrl: t('table.icon'),
-      username: t('table.title'),
+      iconUrl: t("table.icon"),
+      username: t("table.title"),
     };
-    core.debug(`Post a Slack message with params: ${JSON.stringify(params, null, 2)}`);
+    core.debug(
+      `Post a Slack message with params: ${JSON.stringify(params, null, 2)}`
+    );
     return postToSlack(params);
   };
 
@@ -20270,13 +20276,20 @@ module.exports = async ({
   const chunks = splitInChunks(fullMessage);
   await chunks.reduce(async (promise, message) => {
     await promise;
-    return send(message).catch((error) => {
-      core.error(`Error posting Slack message: ${error}`);
-      throw error;
-    });
+    return send(message)
+      .then((response) => {
+        return response.data;
+      })
+      .then((data) => {
+        core.debug(`Slack Response ${data}`);
+      })
+      .catch((error) => {
+        core.error(`Error posting Slack message: ${error}`);
+        throw error;
+      });
   }, Promise.resolve());
 
-  core.debug('Successfully posted to slack');
+  core.debug("Successfully posted to slack");
 };
 
 
