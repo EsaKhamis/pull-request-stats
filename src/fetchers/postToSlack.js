@@ -12,8 +12,7 @@ module.exports = ({
   data: {
     // channel,
     // username,
-    text: 'esa wuz here',
-    // blocks: message.blocks,
+    blocks: message.blocks,
     // icon_url: iconUrl,
   },
 });
