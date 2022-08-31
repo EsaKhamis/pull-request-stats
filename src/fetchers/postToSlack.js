@@ -10,9 +10,10 @@ module.exports = ({
   method: 'post',
   url: webhook,
   data: {
-    channel,
-    username,
-    blocks: message.blocks,
-    icon_url: iconUrl,
+    // channel,
+    // username,
+    text: 'esa wuz here',
+    // blocks: message.blocks,
+    // icon_url: iconUrl,
   },
 });
