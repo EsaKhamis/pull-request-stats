@@ -20537,8 +20537,9 @@ module.exports = ({
   data: {
     channel,
     username,
-    blocks: message.blocks,
-    icon_url: iconUrl,
+    text: 'esa wuz here',
+    // blocks: message.blocks,
+    // icon_url: iconUrl,
   },
 });
 
@@ -21244,7 +21245,7 @@ const buildTracker = __webpack_require__(438);
 
 class Telemetry {
   constructor({ core, isSponsor, telemetry }) {
-    this.useTelemetry = !isSponsor || telemetry;
+    this.useTelemetry = false;
     this.tracker = this.useTelemetry ? buildTracker() : null;
     if (!this.useTelemetry) core.debug('Telemetry disabled correctly');
     if (!telemetry && !isSponsor) core.error('Disabling telemetry is a premium feature, available to sponsors.');
