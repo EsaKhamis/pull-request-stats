@@ -20251,6 +20251,7 @@ module.exports = async ({
   const send = (message) => {
     core.debug(`slack message webhook: ${webhook}`);
     const params = {
+      core,
       webhook,
       channel,
       message,
@@ -20539,22 +20540,18 @@ module.exports = {
 
 const axios = __webpack_require__(53);
 
-module.exports = ({
-  webhook,
-  message,
-  channel,
-  iconUrl,
-  username,
-}) => axios({
-  method: 'post',
-  url: webhook,
-  data: {
-    // channel,
-    // username,
-    blocks: message.blocks,
-    // icon_url: iconUrl,
-  },
-});
+module.exports = ({ core, webhook, message, channel, iconUrl, username }) => axios({
+    method: 'post',
+    url: webhook,
+    data: {
+      // channel,
+      // username,
+      blocks: message.blocks,
+      // icon_url: iconUrl,
+    },
+  }).then((response) => {
+    core.debug(`Slack Response ${response.data}`);
+  });
 
 
 /***/ }),

@@ -34,6 +34,7 @@ module.exports = async ({
   const send = (message) => {
     core.debug(`slack message webhook: ${webhook}`);
     const params = {
+      core,
       webhook,
       channel,
       message,
