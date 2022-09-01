@@ -4,10 +4,10 @@ module.exports = ({ core, webhook, message, channel, iconUrl, username }) => axi
     method: 'post',
     url: webhook,
     data: {
-      // channel,
-      // username,
+      channel,
+      username,
       blocks: message.blocks,
-      // icon_url: iconUrl,
+      icon_url: iconUrl,
     },
   }).then((response) => {
     core.debug(`Slack Response ${response.data}`);
