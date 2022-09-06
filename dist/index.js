@@ -2367,16 +2367,18 @@ module.exports = ({
   reviewers,
   disableLinks,
   displayCharts,
+  core,
 }) => {
   const execute = () => {
     const allStats = reviewers.map((r) => r.stats);
     const bests = calculateBests(allStats);
-
+    core.debug(allStats);
     const tableData = getTableData({
       bests,
       reviewers,
       disableLinks,
       displayCharts,
+      core,
     });
 
     return table(toTableArray(tableData));
@@ -14302,7 +14304,7 @@ const run = async (params) => {
     reviewers: reviewersRaw,
   });
 
-  const table = buildTable({ reviewers, disableLinks, displayCharts });
+  const table = buildTable({ reviewers, disableLinks, displayCharts, core });
   core.debug('Stats table built successfully');
 
   const content = buildComment({
@@ -20278,19 +20280,13 @@ module.exports = async ({
   await chunks.reduce(async (promise, message) => {
     await promise;
     return send(message)
-      .then((response) => {
-        return response.data;
-      })
-      .then((data) => {
-        core.debug(`Slack Response ${data}`);
-      })
       .catch((error) => {
         core.error(`Error posting Slack message: ${error}`);
         throw error;
       });
   }, Promise.resolve());
 
-  core.debug("Successfully posted to slack");
+  core.debug('Successfully posted to slack');
 };
 
 
@@ -20541,7 +20537,7 @@ module.exports = {
 const axios = __webpack_require__(53);
 
 module.exports = ({ core, webhook, message, channel, iconUrl, username }) => axios({
-    method: 'post',
+    method: "post",
     url: webhook,
     data: {
       // channel,
@@ -20549,8 +20545,6 @@ module.exports = ({ core, webhook, message, channel, iconUrl, username }) => axi
       blocks: message.blocks,
       // icon_url: iconUrl,
     },
-  }).then((response) => {
-    core.debug(`Slack Response ${response.data}`);
   });
 
 

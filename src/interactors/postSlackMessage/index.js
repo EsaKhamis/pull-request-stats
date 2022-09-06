@@ -61,17 +61,11 @@ module.exports = async ({
   await chunks.reduce(async (promise, message) => {
     await promise;
     return send(message)
-      .then((response) => {
-        return response.data;
-      })
-      .then((data) => {
-        core.debug(`Slack Response ${data}`);
-      })
       .catch((error) => {
         core.error(`Error posting Slack message: ${error}`);
         throw error;
       });
   }, Promise.resolve());
 
-  core.debug("Successfully posted to slack");
+  core.debug('Successfully posted to slack');
 };
